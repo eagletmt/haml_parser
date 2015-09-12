@@ -1,8 +1,9 @@
 # HamlParser
+[![Build Status](https://travis-ci.org/eagletmt/haml_parser.svg?branch=master)](https://travis-ci.org/eagletmt/haml_parser)
+[![Coverage Status](https://coveralls.io/repos/eagletmt/haml_parser/badge.svg?branch=master&service=github)](https://coveralls.io/github/eagletmt/haml_parser?branch=master)
+[![Code Climate](https://codeclimate.com/github/eagletmt/haml_parser/badges/gpa.svg)](https://codeclimate.com/github/eagletmt/haml_parser)
 
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/haml_parser`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
 
 ## Installation
 
@@ -22,7 +23,37 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+parser = HamlParser::Parser.new(filename: 'input.haml')
+ast = parser.call(File.read('input.haml'))
+```
+
+Simple CLI interface is also available.
+
+```
+% cat input.haml
+%p hello world
+% haml_parser input.haml
+#<struct HamlParser::Ast::Root
+ children=
+  [#<struct HamlParser::Ast::Element
+    children=[],
+    tag_name="p",
+    static_class="",
+    static_id="",
+    attributes="",
+    oneline_child=
+     #<struct HamlParser::Ast::Text
+      text="hello world",
+      escape_html=true,
+      filename="in.haml",
+      lineno=1>,
+    self_closing=false,
+    nuke_inner_whitespace=false,
+    nuke_outer_whitespace=false,
+    filename="in.haml",
+    lineno=1>]>
+```
 
 ## Development
 

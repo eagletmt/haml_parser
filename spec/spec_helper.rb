@@ -9,6 +9,20 @@ SimpleCov.start do
   add_filter File.dirname(__FILE__)
 end
 
+require 'haml_parser/parser'
+
+module SpecHelper
+  def parse(str)
+    HamlParser::Parser.new(filename: 'spec.haml').call(str)
+  end
+
+  def expect_single_ast(str)
+    root = parse(str)
+    expect(root.children.size).to eq(1)
+    root.children[0]
+  end
+end
+
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
@@ -38,4 +52,6 @@ RSpec.configure do |config|
   config.order = :random
 
   Kernel.srand config.seed
+
+  config.include SpecHelper
 end

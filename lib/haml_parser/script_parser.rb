@@ -33,6 +33,7 @@ module HamlParser
           syntax_error!('No Ruby code to evaluate')
         end
         node.script = [script, *RubyMultiline.read(@line_parser, script)].join("\n")
+        node.preserve = text[0] == '~'
         node
       end
     end

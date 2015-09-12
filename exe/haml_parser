@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+require 'haml_parser/cli'
+
+HamlParser::CLI.start(ARGV)

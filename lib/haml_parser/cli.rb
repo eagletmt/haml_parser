@@ -8,15 +8,10 @@ module HamlParser
 
     def start(argv)
       formatter = 'pretty'
-      print_version = false
       OptionParser.new.tap do |parser|
+        parser.version = VERSION
         parser.on('-f FORMAT', '--format FORMAT', 'Select formatter') { |v| formatter = v }
-        parser.on('-v', '--version', 'Print version') { print_version = true }
       end.parse!(argv)
-      if print_version
-        puts "haml_parser #{VERSION}"
-        return
-      end
 
       require 'haml_parser/parser'
       argv.each do |file|

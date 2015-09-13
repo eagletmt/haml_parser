@@ -9,13 +9,24 @@ module HamlParser
       def <<(ast)
         self.children << ast
       end
+
+      def to_h
+        super.merge(children: children.map(&:to_h))
+      end
     end
 
     class Root < Struct.new(:children)
       include HasChildren
+
+      def to_h
+        super.merge(type: 'root')
+      end
     end
 
     class Doctype < Struct.new(:doctype, :filename, :lineno)
+      def to_h
+        super.merge(type: 'doctype')
+      end
     end
 
     class Element < Struct.new(
@@ -42,6 +53,13 @@ module HamlParser
         self.nuke_inner_whitespace ||= false
         self.nuke_outer_whitespace ||= false
       end
+
+      def to_h
+        super.merge(
+          type: 'element',
+          oneline_child: oneline_child && oneline_child.to_h,
+        )
+      end
     end
 
     class Script < Struct.new(
@@ -67,6 +85,10 @@ module HamlParser
           self.mid_block_keyword = false
         end
       end
+
+      def to_h
+        super.merge(type: 'script')
+      end
     end
 
     class SilentScript < Struct.new(:children, :script, :mid_block_keyword, :filename, :lineno)
@@ -78,6 +100,10 @@ module HamlParser
           self.mid_block_keyword = false
         end
       end
+
+      def to_h
+        super.merge(type: 'silent_script')
+      end
     end
 
     class HtmlComment < Struct.new(:children, :comment, :conditional, :filename, :lineno)
@@ -88,10 +114,18 @@ module HamlParser
         self.comment ||= ''
         self.conditional ||= ''
       end
+
+      def to_h
+        super.merge(type: 'html_comment')
+      end
     end
 
     class HamlComment < Struct.new(:children, :filename, :lineno)
       include HasChildren
+
+      def to_h
+        super.merge(type: 'haml_comment')
+      end
     end
 
     class Text < Struct.new(:text, :escape_html, :filename, :lineno)
@@ -101,6 +135,10 @@ module HamlParser
           self.escape_html = true
         end
       end
+
+      def to_h
+        super.merge(type: 'text')
+      end
     end
 
     class Filter < Struct.new(:name, :texts, :filename, :lineno)
@@ -108,9 +146,16 @@ module HamlParser
         super
         self.texts ||= []
       end
+
+      def to_h
+        super.merge(type: 'filter')
+      end
     end
 
     class Empty < Struct.new(:filename, :lineno)
+      def to_h
+        super.merge(type: 'empty')
+      end
     end
   end
 end

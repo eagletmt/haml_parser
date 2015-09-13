@@ -30,14 +30,17 @@ module HamlParser
 
     private
 
-    def format(obj, formatter)
+    def format(ast, formatter)
       case formatter
       when 'pretty'
         require 'pp'
-        pp obj
+        pp ast
       when 'pry'
         require 'pry'
-        Pry::ColorPrinter.pp obj
+        Pry::ColorPrinter.pp ast
+      when 'json'
+        require 'json'
+        puts JSON.generate(ast.to_h)
       else
         abort "Unknown formatter: #{formatter}"
       end

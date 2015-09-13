@@ -7,7 +7,6 @@ RSpec.describe 'Script parser' do
       expect(ast.oneline_child.script).to eq('1 + 2')
       expect(ast.oneline_child.preserve).to eq(false)
       expect(ast.oneline_child.escape_html).to eq(true)
-      expect(ast.oneline_child.mid_block_keyword).to eq(false)
     end
   end
 
@@ -22,7 +21,6 @@ HAML
       expect(script.script).to eq('1 + 2')
       expect(script.preserve).to eq(false)
       expect(script.escape_html).to eq(true)
-      expect(script.mid_block_keyword).to eq(false)
     end
   end
 

@@ -100,7 +100,6 @@ HAML
                 script: "'even'",
                 escape_html: true,
                 preserve: false,
-                mid_block_keyword: false,
                 children: [],
               }
             ],

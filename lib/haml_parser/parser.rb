@@ -194,7 +194,7 @@ module HamlParser
     def indent_leave(indent_level, text)
       parent_ast = @stack.pop
       case @ast
-      when Ast::Script, Ast::SilentScript
+      when Ast::SilentScript
         if indent_level == @indent_tracker.current_level
           @ast.mid_block_keyword = mid_block_keyword?(text)
         end

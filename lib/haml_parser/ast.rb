@@ -67,7 +67,6 @@ module HamlParser
       :script,
       :escape_html,
       :preserve,
-      :mid_block_keyword,
       :filename,
       :lineno,
     )
@@ -80,9 +79,6 @@ module HamlParser
         end
         if self.preserve.nil?
           self.preserve = false
-        end
-        if self.mid_block_keyword.nil?
-          self.mid_block_keyword = false
         end
       end
 

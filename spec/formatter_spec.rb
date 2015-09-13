@@ -74,7 +74,7 @@ HAML
               },
               {
                 type: 'filter',
-                filename: nil,
+                filename: filename,
                 lineno: 5,
                 name: 'javascript',
                 texts: [

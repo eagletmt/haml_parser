@@ -15,7 +15,7 @@ module HamlParser
     def start(name, filename, lineno)
       @ast = Ast::Filter.new
       @ast.name = name
-      @ast.filename
+      @ast.filename = filename
       @ast.lineno = lineno
     end
 

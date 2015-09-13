@@ -3,25 +3,7 @@ require 'spec_helper'
 RSpec.describe 'AST formatter' do
   describe '#to_h' do
     it 'converts to a Hash' do
-      root = parse(<<HAML)
-!!! 5
-%div{hello: 'world'}<
-  hoge
-  %div.foo#bar> fuga
-  :javascript
-    (function() {
-      alert('hello');
-    })();
-- if 1.even?
-
-  = 'even'
-- else
-  -# odd
-  odd
-/
-  %this
-    is comment
-HAML
+      root = parse(read_fixture('sample.haml'))
       filename = 'spec.haml'
       expect(root.to_h).to eq(
         type: 'root',

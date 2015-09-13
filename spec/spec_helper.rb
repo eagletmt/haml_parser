@@ -21,6 +21,10 @@ module SpecHelper
     expect(root.children.size).to eq(1)
     root.children[0]
   end
+
+  def read_fixture(name)
+    File.read(File.join(__dir__, 'fixtures', name))
+  end
 end
 
 RSpec.configure do |config|

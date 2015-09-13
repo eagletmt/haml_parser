@@ -1,4 +1,5 @@
 # HamlParser
+[![Gem Version](https://badge.fury.io/rb/haml_parser.svg)](http://badge.fury.io/rb/haml_parser)
 [![Build Status](https://travis-ci.org/eagletmt/haml_parser.svg?branch=master)](https://travis-ci.org/eagletmt/haml_parser)
 [![Coverage Status](https://coveralls.io/repos/eagletmt/haml_parser/badge.svg?branch=master&service=github)](https://coveralls.io/github/eagletmt/haml_parser?branch=master)
 [![Code Climate](https://codeclimate.com/github/eagletmt/haml_parser/badges/gpa.svg)](https://codeclimate.com/github/eagletmt/haml_parser)

@@ -1,4 +1,4 @@
-require 'haml_parser/ast'
+require_relative 'ast'
 
 module HamlParser
   class FilterParser

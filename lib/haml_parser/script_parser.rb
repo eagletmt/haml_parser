@@ -1,6 +1,6 @@
-require 'haml_parser/ast'
-require 'haml_parser/ruby_multiline'
-require 'haml_parser/error'
+require_relative 'ast'
+require_relative 'error'
+require_relative 'ruby_multiline'
 
 module HamlParser
   class ScriptParser

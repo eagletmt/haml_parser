@@ -1,9 +1,9 @@
 require 'strscan'
-require 'haml_parser/ast'
-require 'haml_parser/utils'
-require 'haml_parser/ruby_multiline'
-require 'haml_parser/script_parser'
-require 'haml_parser/error'
+require_relative 'ast'
+require_relative 'error'
+require_relative 'ruby_multiline'
+require_relative 'script_parser'
+require_relative 'utils'
 
 module HamlParser
   class ElementParser

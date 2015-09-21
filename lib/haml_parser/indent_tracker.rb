@@ -1,4 +1,4 @@
-require 'haml_parser/error'
+require_relative 'error'
 
 module HamlParser
   class IndentTracker

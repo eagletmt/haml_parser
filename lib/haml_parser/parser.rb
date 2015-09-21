@@ -1,12 +1,12 @@
-require 'haml_parser/ast'
-require 'haml_parser/element_parser'
-require 'haml_parser/error'
-require 'haml_parser/filter_parser'
-require 'haml_parser/indent_tracker'
-require 'haml_parser/line_parser'
-require 'haml_parser/ruby_multiline'
-require 'haml_parser/script_parser'
-require 'haml_parser/utils'
+require_relative 'ast'
+require_relative 'element_parser'
+require_relative 'error'
+require_relative 'filter_parser'
+require_relative 'indent_tracker'
+require_relative 'line_parser'
+require_relative 'ruby_multiline'
+require_relative 'script_parser'
+require_relative 'utils'
 
 module HamlParser
   class Parser

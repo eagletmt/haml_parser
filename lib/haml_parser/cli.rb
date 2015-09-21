@@ -13,7 +13,7 @@ module HamlParser
         parser.on('-f FORMAT', '--format FORMAT', 'Select formatter') { |v| formatter = v }
       end.parse!(argv)
 
-      require 'haml_parser/parser'
+      require_relative 'parser'
       argv.each do |file|
         format(parse_file(file), formatter)
       end

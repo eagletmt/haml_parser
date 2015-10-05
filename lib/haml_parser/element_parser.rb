@@ -84,7 +84,7 @@ module HamlParser
         if attributes.empty?
           attributes = new_attributes
         else
-          attributes << ", " << new_attributes
+          attributes << ', ' << new_attributes
         end
       end
       [attributes, rest]
@@ -99,7 +99,7 @@ module HamlParser
         depth = Utils.balance(s, '{', '}', depth)
         if depth == 0
           attr = s.pre_match + s.matched
-          return [attr[1, attr.size-2], s.rest]
+          return [attr[1, attr.size - 2], s.rest]
         else
           if /,\s*\z/ === text && @line_parser.has_next?
             text << "\n" << @line_parser.next_line
@@ -119,7 +119,7 @@ module HamlParser
         pre_pos = s.pos
         depth = Utils.balance(s, '(', ')', depth)
         if depth == 0
-          t = s.string.byteslice(pre_pos ... s.pos-1)
+          t = s.string.byteslice(pre_pos...s.pos - 1)
           return [parse_new_attribute_list(t), s.rest]
         else
           if @line_parser.has_next?
@@ -165,7 +165,8 @@ module HamlParser
     end
 
     def scan_value(scanner)
-      if quote = scanner.scan(/["']/)
+      quote = scanner.scan(/["']/)
+      if quote
         scan_quoted_value(scanner, quote)
       else
         scan_variable_value(scanner)
@@ -187,7 +188,7 @@ module HamlParser
           syntax_error!('Invalid attribute list (mismatched interpolation)')
         end
       end
-      str = scanner.string.byteslice(pos-1 .. scanner.pos-1)
+      str = scanner.string.byteslice(pos - 1..scanner.pos - 1)
 
       # Even if the quote is single, string interpolation is performed in Haml.
       str[0] = '"'

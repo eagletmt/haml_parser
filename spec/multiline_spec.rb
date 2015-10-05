@@ -12,7 +12,7 @@ HAML
     expect(ast.children.size).to eq(4)
     foo, empty1, empty2, quux = ast.children
     aggregate_failures do
-      expect(foo.script).to eq(%Q{"foo " + "bar " + "baz"               })
+      expect(foo.script).to eq('"foo " + "bar " + "baz"               ')
       expect(empty1).to be_a(HamlParser::Ast::Empty)
       expect(empty2).to be_a(HamlParser::Ast::Empty)
       expect(quux.script).to eq('"quux"')

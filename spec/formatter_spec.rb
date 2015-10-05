@@ -100,7 +100,7 @@ RSpec.describe 'AST formatter' do
                 children: [],
               },
               {
-                type: "text",
+                type: 'text',
                 filename: filename,
                 lineno: 14,
                 text: 'odd',

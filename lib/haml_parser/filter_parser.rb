@@ -9,7 +9,7 @@ module HamlParser
     end
 
     def enabled?
-      !!@ast
+      !@ast.nil?
     end
 
     def start(name, filename, lineno)
@@ -46,7 +46,7 @@ module HamlParser
         end
       end
 
-      text = line[@indent_level .. -1]
+      text = line[@indent_level..-1]
       @ast.texts << text
       nil
     end

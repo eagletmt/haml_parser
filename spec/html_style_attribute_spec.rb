@@ -75,14 +75,14 @@ HAML
   end
 
   it 'parses string interpolation in single-quote' do
-    ast = expect_single_ast(%q|%span(foo=1 bar="baz#{1 + 2}") hello|)
+    ast = expect_single_ast('%span(foo=1 bar="baz#{1 + 2}") hello')
     aggregate_failures do
       expect(ast.attributes).to eq('"foo" => 1,"bar" => "baz#{1 + 2}",')
     end
   end
 
   it 'parses string interpolation in double-quote' do
-    ast = expect_single_ast(%q|%span(foo=1 bar="baz#{1 + 2}") hello|)
+    ast = expect_single_ast('%span(foo=1 bar="baz#{1 + 2}") hello')
     aggregate_failures do
       expect(ast.attributes).to eq('"foo" => 1,"bar" => "baz#{1 + 2}",')
     end

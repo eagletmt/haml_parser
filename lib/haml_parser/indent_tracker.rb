@@ -30,8 +30,8 @@ module HamlParser
 
     def initialize(on_enter: nil, on_leave: nil)
       @indent_levels = [0]
-      @on_enter = on_enter || lambda { |level, text| }
-      @on_leave = on_leave || lambda { |level, text| }
+      @on_enter = on_enter || lambda { |_level, _text| }
+      @on_leave = on_leave || lambda { |_level, _text| }
       @comment_level = nil
     end
 
@@ -85,7 +85,7 @@ module HamlParser
       end
     end
 
-    def indent_enter(indent_level, text, lineno)
+    def indent_enter(indent_level, text, _lineno)
       unless @comment_level
         @indent_levels.push(indent_level)
         @on_enter.call(indent_level, text)

@@ -15,8 +15,8 @@ module HamlParser
     #   (however, "x?," is a method call and not a literal)
     # - and not "?\," which is a character literal
     def self.is_ruby_multiline?(text)
-      text && text.length > 1 && text[-1] == ?, &&
-        !((text[-3, 2] =~ /\W\?/) || text[-3, 2] == "?\\")
+      text && text.length > 1 && text[-1] == ',' &&
+        !((text[-3, 2] =~ /\W\?/) || text[-3, 2] == '?\\')
     end
     private_class_method :is_ruby_multiline?
   end

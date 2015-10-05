@@ -25,10 +25,10 @@ module HamlParser
 
     def parse_script(text)
       if text[1] == '='
-        create_node(Ast::Text) { |t| t.text = text[2 .. -1].strip }
+        create_node(Ast::Text) { |t| t.text = text[2..-1].strip }
       else
         node = create_node(Ast::Script)
-        script = text[1 .. -1].lstrip
+        script = text[1..-1].lstrip
         if script.empty?
           syntax_error!('No Ruby code to evaluate')
         end
@@ -41,10 +41,10 @@ module HamlParser
     def parse_sanitized(text)
       case
       when text.start_with?('&==')
-        create_node(Ast::Text) { |t| t.text = text[3 .. -1].lstrip }
+        create_node(Ast::Text) { |t| t.text = text[3..-1].lstrip }
       when text[1] == '=' || text[1] == '~'
         node = create_node(Ast::Script)
-        script = text[2 .. -1].lstrip
+        script = text[2..-1].lstrip
         if script.empty?
           syntax_error!('No Ruby code to evaluate')
         end
@@ -52,7 +52,7 @@ module HamlParser
         node.preserve = text[1] == '~'
         node
       else
-        create_node(Ast::Text) { |t| t.text = text[1 .. -1].strip }
+        create_node(Ast::Text) { |t| t.text = text[1..-1].strip }
       end
     end
 
@@ -60,13 +60,13 @@ module HamlParser
       case
       when text.start_with?('!==')
         create_node(Ast::Text) do |t|
-          t.text = text[3 .. -1].lstrip
+          t.text = text[3..-1].lstrip
           t.escape_html = false
         end
       when text[1] == '=' || text[1] == '~'
         node = create_node(Ast::Script)
         node.escape_html = false
-        script = text[2 .. -1].lstrip
+        script = text[2..-1].lstrip
         if script.empty?
           syntax_error!('No Ruby code to evaluate')
         end
@@ -75,7 +75,7 @@ module HamlParser
         node
       else
         create_node(Ast::Text) do |t|
-          t.text = text[1 .. -1].lstrip
+          t.text = text[1..-1].lstrip
           t.escape_html = false
         end
       end

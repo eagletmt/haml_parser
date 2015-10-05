@@ -49,12 +49,12 @@ module HamlParser
     end
 
     def next_multiline(line)
-      buf = [line[0, line.size-1]]
+      buf = [line[0, line.size - 1]]
       while @lineno < @lines.size
         line = move_next
 
         if is_multiline?(line)
-          line = line[0, line.size-1]
+          line = line[0, line.size - 1]
           buf << line.lstrip
         else
           move_back

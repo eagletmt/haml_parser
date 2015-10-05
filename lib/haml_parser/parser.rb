@@ -79,7 +79,7 @@ module HamlParser
 
       case text[0]
       when ESCAPE_PREFIX
-        parse_plain(text[1 .. -1])
+        parse_plain(text[1..-1])
       when ELEMENT_PREFIX
         parse_element(text)
       when DOCTYPE_PREFIX
@@ -106,11 +106,11 @@ module HamlParser
     end
 
     def parse_doctype(text)
-      @ast << create_node(Ast::Doctype) { |d| d.doctype = text[3 .. -1].strip }
+      @ast << create_node(Ast::Doctype) { |d| d.doctype = text[3..-1].strip }
     end
 
     def parse_comment(text)
-      text = text[1, text.size-1].strip
+      text = text[1, text.size - 1].strip
       comment = create_node(Ast::HtmlComment)
       comment.comment = text
       if text[0] == '['
@@ -123,7 +123,7 @@ module HamlParser
     CONDITIONAL_COMMENT_REGEX = /[\[\]]/o
 
     def parse_conditional_comment(text)
-      s = StringScanner.new(text[1 .. -1])
+      s = StringScanner.new(text[1..-1])
       depth = Utils.balance(s, '[', ']')
       if depth == 0
         [s.pre_match, s.rest.lstrip]
@@ -163,7 +163,7 @@ module HamlParser
       @filter_parser.start(filter_name, @line_parser.filename, @line_parser.lineno)
     end
 
-    def indent_enter(_, text)
+    def indent_enter(_, _text)
       empty_lines = []
       while @ast.children.last.is_a?(Ast::Empty)
         empty_lines << @ast.children.pop
@@ -213,8 +213,6 @@ module HamlParser
       m = text.match(BLOCK_KEYWORD_REGEX)
       if m
         m[1] || m[2]
-      else
-        nil
       end
     end
 

@@ -74,10 +74,10 @@ module HamlParser
 
       def initialize(*)
         super
-        if self.escape_html.nil?
+        if escape_html.nil?
           self.escape_html = true
         end
-        if self.preserve.nil?
+        if preserve.nil?
           self.preserve = false
         end
       end
@@ -92,7 +92,7 @@ module HamlParser
 
       def initialize(*)
         super
-        if self.mid_block_keyword.nil?
+        if mid_block_keyword.nil?
           self.mid_block_keyword = false
         end
       end
@@ -127,7 +127,7 @@ module HamlParser
     class Text < Struct.new(:text, :escape_html, :filename, :lineno)
       def initialize(*)
         super
-        if self.escape_html.nil?
+        if escape_html.nil?
           self.escape_html = true
         end
       end

@@ -36,7 +36,7 @@ HAML
   -#
   %p world
 HAML
-  expect(ast.children[1]).to be_a(HamlParser::Ast::HamlComment)
-  expect(ast.children[1].children).to be_empty
+    expect(ast.children[1]).to be_a(HamlParser::Ast::HamlComment)
+    expect(ast.children[1].children).to be_empty
   end
 end

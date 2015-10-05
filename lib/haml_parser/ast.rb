@@ -15,7 +15,7 @@ module HamlParser
       end
     end
 
-    class Root < Struct.new(:children)
+    Root = Struct.new(:children) do
       include HasChildren
 
       def to_h
@@ -23,13 +23,13 @@ module HamlParser
       end
     end
 
-    class Doctype < Struct.new(:doctype, :filename, :lineno)
+    Doctype = Struct.new(:doctype, :filename, :lineno) do
       def to_h
         super.merge(type: 'doctype')
       end
     end
 
-    class Element < Struct.new(
+    Element = Struct.new(
       :children,
       :tag_name,
       :static_class,
@@ -41,7 +41,7 @@ module HamlParser
       :nuke_outer_whitespace,
       :filename,
       :lineno,
-    )
+    ) do
       include HasChildren
 
       def initialize(*)
@@ -62,14 +62,14 @@ module HamlParser
       end
     end
 
-    class Script < Struct.new(
+    Script = Struct.new(
       :children,
       :script,
       :escape_html,
       :preserve,
       :filename,
       :lineno,
-    )
+    ) do
       include HasChildren
 
       def initialize(*)
@@ -87,7 +87,7 @@ module HamlParser
       end
     end
 
-    class SilentScript < Struct.new(:children, :script, :mid_block_keyword, :filename, :lineno)
+    SilentScript = Struct.new(:children, :script, :mid_block_keyword, :filename, :lineno) do
       include HasChildren
 
       def initialize(*)
@@ -102,7 +102,7 @@ module HamlParser
       end
     end
 
-    class HtmlComment < Struct.new(:children, :comment, :conditional, :filename, :lineno)
+    HtmlComment = Struct.new(:children, :comment, :conditional, :filename, :lineno) do
       include HasChildren
 
       def initialize(*)
@@ -116,7 +116,7 @@ module HamlParser
       end
     end
 
-    class HamlComment < Struct.new(:children, :filename, :lineno)
+    HamlComment = Struct.new(:children, :filename, :lineno) do
       include HasChildren
 
       def to_h
@@ -124,7 +124,7 @@ module HamlParser
       end
     end
 
-    class Text < Struct.new(:text, :escape_html, :filename, :lineno)
+    Text = Struct.new(:text, :escape_html, :filename, :lineno) do
       def initialize(*)
         super
         if escape_html.nil?
@@ -137,7 +137,7 @@ module HamlParser
       end
     end
 
-    class Filter < Struct.new(:name, :texts, :filename, :lineno)
+    Filter = Struct.new(:name, :texts, :filename, :lineno) do
       def initialize(*)
         super
         self.texts ||= []
@@ -148,7 +148,7 @@ module HamlParser
       end
     end
 
-    class Empty < Struct.new(:filename, :lineno)
+    Empty = Struct.new(:filename, :lineno) do
       def to_h
         super.merge(type: 'empty')
       end

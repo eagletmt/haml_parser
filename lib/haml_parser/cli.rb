@@ -1,4 +1,5 @@
 require 'optparse'
+require_relative 'version'
 
 module HamlParser
   class CLI

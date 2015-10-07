@@ -2,30 +2,42 @@ inherit_from: .rubocop_todo.yml
 
 Style/BarePercentLiterals:
   EnforcedStyle: percent_q
+
 Style/CaseEquality:
   Enabled: false
+
 Style/GuardClause:
   Enabled: false
+
 Style/HashSyntax:
   Exclude:
     - 'Rakefile'
+
 Style/IfUnlessModifier:
   Enabled: false
+
 Style/Lambda:
   Enabled: false
+
 Style/Next:
   Enabled: false
+
 Style/PercentLiteralDelimiters:
   Enabled: false
+
 Style/RaiseArgs:
   EnforcedStyle: compact
+
 Style/SignalException:
   Enabled: false
+
 Style/Tab:
   Exclude:
     - 'spec/indent_spec.rb'
+
 Style/TrailingComma:
   Enabled: false
+
 Style/TrailingWhitespace:
   Exclude:
     - 'spec/multiline_spec.rb'

@@ -141,7 +141,11 @@ module HamlParser
     end
 
     def parse_script(text)
-      @ast << ScriptParser.new(@line_parser).parse(text)
+      node = ScriptParser.new(@line_parser).parse(text)
+      if node.is_a?(Ast::Script)
+        node.keyword = block_keyword(node.script)
+      end
+      @ast << node
     end
 
     def parse_silent_script(text)
@@ -152,6 +156,7 @@ module HamlParser
       node = create_node(Ast::SilentScript)
       script = text[/\A- *(.*)\z/, 1]
       node.script = [script, *RubyMultiline.read(@line_parser, script)].join("\n")
+      node.keyword = block_keyword(node.script)
       @ast << node
     end
 
@@ -191,14 +196,8 @@ module HamlParser
       nil
     end
 
-    def indent_leave(indent_level, text)
+    def indent_leave(_indent_level, _text)
       parent_ast = @stack.pop
-      case @ast
-      when Ast::SilentScript
-        if indent_level == @indent_tracker.current_level
-          @ast.mid_block_keyword = mid_block_keyword?(text)
-        end
-      end
       @ast = parent_ast
       nil
     end
@@ -214,10 +213,6 @@ module HamlParser
       if m
         m[1] || m[2]
       end
-    end
-
-    def mid_block_keyword?(text)
-      MID_BLOCK_KEYWORDS.include?(block_keyword(text))
     end
 
     def syntax_error!(message)

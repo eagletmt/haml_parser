@@ -72,7 +72,7 @@ RSpec.describe 'AST formatter' do
             filename: filename,
             lineno: 9,
             script: 'if 1.even?',
-            mid_block_keyword: true,
+            keyword: 'if',
             children: [
               { type: 'empty', filename: filename, lineno: 10 },
               {
@@ -80,6 +80,7 @@ RSpec.describe 'AST formatter' do
                 filename: filename,
                 lineno: 11,
                 script: "'even'",
+                keyword: nil,
                 escape_html: true,
                 preserve: false,
                 children: [],
@@ -91,7 +92,7 @@ RSpec.describe 'AST formatter' do
             filename: filename,
             lineno: 12,
             script: 'else',
-            mid_block_keyword: false,
+            keyword: 'else',
             children: [
               {
                 type: 'haml_comment',

@@ -65,6 +65,7 @@ module HamlParser
     Script = Struct.new(
       :children,
       :script,
+      :keyword,
       :escape_html,
       :preserve,
       :filename,
@@ -87,15 +88,8 @@ module HamlParser
       end
     end
 
-    SilentScript = Struct.new(:children, :script, :mid_block_keyword, :filename, :lineno) do
+    SilentScript = Struct.new(:children, :script, :keyword, :filename, :lineno) do
       include HasChildren
-
-      def initialize(*)
-        super
-        if mid_block_keyword.nil?
-          self.mid_block_keyword = false
-        end
-      end
 
       def to_h
         super.merge(type: 'silent_script')

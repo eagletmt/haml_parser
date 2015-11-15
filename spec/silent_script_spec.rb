@@ -9,7 +9,7 @@ HAML
     aggregate_failures do
       expect(ast).to be_a(HamlParser::Ast::SilentScript)
       expect(ast.script).to eq('2.times do |i|')
-      expect(ast.mid_block_keyword).to eq(false)
+      expect(ast.keyword).to eq(nil)
       expect(ast.children.size).to eq(1)
     end
     expect(ast.children[0].oneline_child.script).to eq('i')
@@ -22,7 +22,7 @@ HAML
 HAML
     aggregate_failures do
       expect(ast.script).to eq('if 2.even?')
-      expect(ast.mid_block_keyword).to eq(false)
+      expect(ast.keyword).to eq('if')
       expect(ast.children.size).to eq(1)
     end
     expect(ast.children[0].text).to eq('even')
@@ -39,10 +39,10 @@ HAML
     if_, else_ = root.children
     aggregate_failures do
       expect(if_.script).to eq('if 1.even?')
-      expect(if_.mid_block_keyword).to eq(true)
+      expect(if_.keyword).to eq('if')
       expect(if_.children[0].text).to eq('even')
       expect(else_.script).to eq('else')
-      expect(else_.mid_block_keyword).to eq(false)
+      expect(else_.keyword).to eq('else')
       expect(else_.children[0].text).to eq('odd')
     end
   end

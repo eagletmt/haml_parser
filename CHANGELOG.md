@@ -1,3 +1,7 @@
+# 0.3.0 (2015-11-16)
+- Add support for object reference syntax
+- Fix attribute parser for empty braces or parens
+
 # 0.2.0 (2015-11-15)
 - Remove `Ast::SilentScript#mid_block_keyword` attribute
 - Add `Ast::Script#keyword` and `Ast::SilentScript#keyword` attribute

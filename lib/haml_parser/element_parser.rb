@@ -26,7 +26,7 @@ module HamlParser
       element.static_class, element.static_id = parse_class_and_id(m[2])
       rest = m[3] || ''
 
-      element.attributes, rest = parse_attributes(rest)
+      element.attributes, element.object_ref, rest = parse_attributes(rest)
       element.nuke_inner_whitespace, element.nuke_outer_whitespace, rest = parse_nuke_whitespace(rest)
       element.self_closing, rest = parse_self_closing(rest)
       element.oneline_child = ScriptParser.new(@line_parser).parse(rest)
@@ -57,10 +57,12 @@ module HamlParser
 
     OLD_ATTRIBUTE_BEGIN = '{'
     NEW_ATTRIBUTE_BEGIN = '('
+    OBJECT_REF_BEGIN = '['
 
     def parse_attributes(rest)
       old_attributes = ''
       new_attributes = ''
+      object_ref = nil
 
       loop do
         case rest[0]
@@ -74,6 +76,11 @@ module HamlParser
             break
           end
           new_attributes, rest = parse_new_attributes(rest)
+        when OBJECT_REF_BEGIN
+          if object_ref
+            break
+          end
+          object_ref, rest = parse_object_ref(rest)
         else
           break
         end
@@ -87,7 +94,7 @@ module HamlParser
           attributes << ', ' << new_attributes
         end
       end
-      [attributes, rest]
+      [attributes, object_ref, rest]
     end
 
     def parse_old_attributes(text)
@@ -201,6 +208,17 @@ module HamlParser
         unless var
           syntax_error!('Invalid attribute list (invalid variable name)')
         end
+      end
+    end
+
+    def parse_object_ref(text)
+      s = StringScanner.new(text)
+      s.pos = 1
+      depth = Utils.balance(s, '[', ']')
+      if depth == 0
+        [s.pre_match[1, s.pre_match.size - 1], s.rest]
+      else
+        syntax_error!('Unmatched brackets for object reference')
       end
     end
 

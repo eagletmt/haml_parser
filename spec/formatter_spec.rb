@@ -26,6 +26,7 @@ RSpec.describe 'AST formatter' do
             self_closing: false,
             nuke_inner_whitespace: true,
             nuke_outer_whitespace: false,
+            object_ref: nil,
             children: [
               {
                 type: 'text',
@@ -52,6 +53,7 @@ RSpec.describe 'AST formatter' do
                 self_closing: false,
                 nuke_inner_whitespace: false,
                 nuke_outer_whitespace: true,
+                object_ref: nil,
                 children: [],
               },
               {
@@ -128,6 +130,7 @@ RSpec.describe 'AST formatter' do
                 self_closing: false,
                 nuke_inner_whitespace: false,
                 nuke_outer_whitespace: false,
+                object_ref: nil,
                 children: [
                   {
                     type: 'text',

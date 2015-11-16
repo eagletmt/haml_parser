@@ -11,6 +11,7 @@ RSpec.describe 'Attribute parser' do
       expect(ast.children).to be_empty
       expect(ast.oneline_child.text).to eq('hello')
       expect(ast.oneline_child.lineno).to eq(1)
+      expect(ast.object_ref).to be_nil
     end
   end
 
@@ -29,6 +30,32 @@ RSpec.describe 'Attribute parser' do
       expect(ast.tag_name).to eq('span')
       expect(ast.attributes).to eq('')
       expect(ast.oneline_child.text).to eq('{hello}')
+    end
+  end
+
+  describe 'object reference' do
+    it 'parses object ref' do
+      ast = expect_single_ast('%span[foo]{class: "x"} hello')
+      aggregate_failures do
+        expect(ast.tag_name).to eq('span')
+        expect(ast.attributes).to eq('class: "x"')
+        expect(ast.object_ref).to eq('foo')
+        expect(ast.oneline_child.text).to eq('hello')
+      end
+    end
+
+    it 'parses only one object ref' do
+      ast = expect_single_ast('%span[foo]{class: "x"}[bar] hello')
+      aggregate_failures do
+        expect(ast.tag_name).to eq('span')
+        expect(ast.attributes).to eq('class: "x"')
+        expect(ast.object_ref).to eq('foo')
+        expect(ast.oneline_child.text).to eq('[bar] hello')
+      end
+    end
+
+    it 'raises error for unmatched brackets' do
+      expect { parse('%span[foo hello') }.to raise_error(HamlParser::Error)
     end
   end
 

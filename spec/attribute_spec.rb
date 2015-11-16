@@ -24,6 +24,15 @@ RSpec.describe 'Attribute parser' do
     end
   end
 
+  it 'parses empty brace' do
+    ast = expect_single_ast('%span{}{bar: 2}')
+    aggregate_failures do
+      expect(ast.tag_name).to eq('span')
+      expect(ast.attributes).to eq('')
+      expect(ast.oneline_child.text).to eq('{bar: 2}')
+    end
+  end
+
   it "doesn't skip spaces before attribute list" do
     ast = expect_single_ast('%span {hello}')
     aggregate_failures do

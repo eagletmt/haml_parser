@@ -44,6 +44,14 @@ HAML
     end
   end
 
+  it 'parses empty parens' do
+    ast = expect_single_ast('%span()(bar=3) hello')
+    aggregate_failures do
+      expect(ast.attributes).to eq('')
+      expect(ast.oneline_child.text).to eq('(bar=3) hello')
+    end
+  end
+
   it "doesn't skip spaces before attribute list" do
     ast = expect_single_ast('%span (hello)')
     aggregate_failures do

@@ -60,19 +60,19 @@ module HamlParser
     OBJECT_REF_BEGIN = '['
 
     def parse_attributes(rest)
-      old_attributes = ''
-      new_attributes = ''
+      old_attributes = nil
+      new_attributes = nil
       object_ref = nil
 
       loop do
         case rest[0]
         when OLD_ATTRIBUTE_BEGIN
-          unless old_attributes.empty?
+          if old_attributes
             break
           end
           old_attributes, rest = parse_old_attributes(rest)
         when NEW_ATTRIBUTE_BEGIN
-          unless new_attributes.empty?
+          if new_attributes
             break
           end
           new_attributes, rest = parse_new_attributes(rest)
@@ -86,8 +86,8 @@ module HamlParser
         end
       end
 
-      attributes = old_attributes
-      unless new_attributes.empty?
+      attributes = old_attributes || ''
+      if new_attributes
         if attributes.empty?
           attributes = new_attributes
         else

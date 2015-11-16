@@ -39,6 +39,7 @@ module HamlParser
       :self_closing,
       :nuke_inner_whitespace,
       :nuke_outer_whitespace,
+      :object_ref,
       :filename,
       :lineno,
     ) do

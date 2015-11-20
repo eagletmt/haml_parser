@@ -67,7 +67,7 @@ HAML
 %div{foo: 1, |
   bar: 2}
 HAML
-    expect(ast.attributes).to eq("foo: 1, \n  bar: 2")
+    expect(ast.old_attributes).to eq("foo: 1, \n  bar: 2")
   end
 
   it "isn't enabled in filter" do

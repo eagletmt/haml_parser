@@ -26,7 +26,7 @@ module HamlParser
       element.static_class, element.static_id = parse_class_and_id(m[2])
       rest = m[3] || ''
 
-      element.attributes, element.object_ref, rest = parse_attributes(rest)
+      element.old_attributes, element.new_attributes, element.object_ref, rest = parse_attributes(rest)
       element.nuke_inner_whitespace, element.nuke_outer_whitespace, rest = parse_nuke_whitespace(rest)
       element.self_closing, rest = parse_self_closing(rest)
       element.oneline_child = ScriptParser.new(@line_parser).parse(rest)
@@ -86,15 +86,7 @@ module HamlParser
         end
       end
 
-      attributes = old_attributes || ''
-      if new_attributes
-        if attributes.empty?
-          attributes = new_attributes
-        else
-          attributes << ', ' << new_attributes
-        end
-      end
-      [attributes, object_ref, rest]
+      [old_attributes, new_attributes, object_ref, rest]
     end
 
     def parse_old_attributes(text)

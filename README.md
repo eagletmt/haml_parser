@@ -42,17 +42,19 @@ Simple CLI interface is also available.
     tag_name="p",
     static_class="",
     static_id="",
-    attributes="",
+    old_attributes=nil,
+    new_attributes=nil,
     oneline_child=
      #<struct HamlParser::Ast::Text
       text="hello world",
       escape_html=true,
-      filename="in.haml",
+      filename="input.haml",
       lineno=1>,
     self_closing=false,
     nuke_inner_whitespace=false,
     nuke_outer_whitespace=false,
-    filename="in.haml",
+    object_ref=nil,
+    filename="input.haml",
     lineno=1>]>
 ```
 
@@ -70,4 +72,3 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/eaglet
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-

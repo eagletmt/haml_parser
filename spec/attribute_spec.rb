@@ -6,7 +6,8 @@ RSpec.describe 'Attribute parser' do
     expect(ast).to be_a(HamlParser::Ast::Element)
     aggregate_failures do
       expect(ast.tag_name).to eq('span')
-      expect(ast.attributes).to eq('class: "x"')
+      expect(ast.old_attributes).to eq('class: "x"')
+      expect(ast.new_attributes).to be_nil
       expect(ast.lineno).to eq(1)
       expect(ast.children).to be_empty
       expect(ast.oneline_child.text).to eq('hello')
@@ -19,7 +20,7 @@ RSpec.describe 'Attribute parser' do
     ast = expect_single_ast('%span{foo: 1}{bar: 2}')
     aggregate_failures do
       expect(ast.tag_name).to eq('span')
-      expect(ast.attributes).to eq('foo: 1')
+      expect(ast.old_attributes).to eq('foo: 1')
       expect(ast.oneline_child.text).to eq('{bar: 2}')
     end
   end
@@ -28,7 +29,7 @@ RSpec.describe 'Attribute parser' do
     ast = expect_single_ast('%span{}{bar: 2}')
     aggregate_failures do
       expect(ast.tag_name).to eq('span')
-      expect(ast.attributes).to eq('')
+      expect(ast.old_attributes).to eq('')
       expect(ast.oneline_child.text).to eq('{bar: 2}')
     end
   end
@@ -37,7 +38,7 @@ RSpec.describe 'Attribute parser' do
     ast = expect_single_ast('%span {hello}')
     aggregate_failures do
       expect(ast.tag_name).to eq('span')
-      expect(ast.attributes).to eq('')
+      expect(ast.old_attributes).to be_nil
       expect(ast.oneline_child.text).to eq('{hello}')
     end
   end
@@ -47,7 +48,7 @@ RSpec.describe 'Attribute parser' do
       ast = expect_single_ast('%span[foo]{class: "x"} hello')
       aggregate_failures do
         expect(ast.tag_name).to eq('span')
-        expect(ast.attributes).to eq('class: "x"')
+        expect(ast.old_attributes).to eq('class: "x"')
         expect(ast.object_ref).to eq('foo')
         expect(ast.oneline_child.text).to eq('hello')
       end
@@ -57,7 +58,7 @@ RSpec.describe 'Attribute parser' do
       ast = expect_single_ast('%span[foo]{class: "x"}[bar] hello')
       aggregate_failures do
         expect(ast.tag_name).to eq('span')
-        expect(ast.attributes).to eq('class: "x"')
+        expect(ast.old_attributes).to eq('class: "x"')
         expect(ast.object_ref).to eq('foo')
         expect(ast.oneline_child.text).to eq('[bar] hello')
       end
@@ -73,7 +74,7 @@ RSpec.describe 'Attribute parser' do
       ast = expect_single_ast('%span.foo.bar .baz')
       aggregate_failures do
         expect(ast.tag_name).to eq('span')
-        expect(ast.attributes).to eq('')
+        expect(ast.old_attributes).to be_nil
         expect(ast.static_class).to eq('foo bar')
         expect(ast.children).to be_empty
         expect(ast.oneline_child.text).to eq('.baz')
@@ -84,7 +85,7 @@ RSpec.describe 'Attribute parser' do
       ast = expect_single_ast('.foo.bar .baz')
       aggregate_failures do
         expect(ast.tag_name).to eq('div')
-        expect(ast.attributes).to eq('')
+        expect(ast.old_attributes).to be_nil
         expect(ast.static_class).to eq('foo bar')
         expect(ast.children).to be_empty
         expect(ast.oneline_child.text).to eq('.baz')
@@ -104,7 +105,7 @@ RSpec.describe 'Attribute parser' do
       ast = expect_single_ast('%span#foo #bar')
       aggregate_failures do
         expect(ast.tag_name).to eq('span')
-        expect(ast.attributes).to eq('')
+        expect(ast.old_attributes).to be_nil
         expect(ast.static_id).to eq('foo')
         expect(ast.children).to be_empty
         expect(ast.oneline_child.text).to eq('#bar')
@@ -115,7 +116,7 @@ RSpec.describe 'Attribute parser' do
       ast = expect_single_ast('#foo #bar')
       aggregate_failures do
         expect(ast.tag_name).to eq('div')
-        expect(ast.attributes).to eq('')
+        expect(ast.old_attributes).to be_nil
         expect(ast.static_id).to eq('foo')
         expect(ast.children).to be_empty
         expect(ast.oneline_child.text).to eq('#bar')
@@ -125,7 +126,7 @@ RSpec.describe 'Attribute parser' do
     it 'ignores leading static ids' do
       ast = expect_single_ast('#foo#bar#baz')
       aggregate_failures do
-        expect(ast.attributes).to eq('')
+        expect(ast.old_attributes).to be_nil
         expect(ast.static_id).to eq('baz')
         expect(ast.children).to be_empty
         expect(ast.oneline_child).to be_nil
@@ -159,7 +160,7 @@ RSpec.describe 'Attribute parser' do
 bar: 2} hello
 HAML
       aggregate_failures do
-        expect(ast.attributes).to eq("foo: 1,\nbar: 2")
+        expect(ast.old_attributes).to eq("foo: 1,\nbar: 2")
         expect(ast.oneline_child.text).to eq('hello')
       end
     end
@@ -178,7 +179,7 @@ HAML
   %span hello
 HAML
       aggregate_failures do
-        expect(ast.attributes).to eq("data: {foo: 1,\n  bar: 2}")
+        expect(ast.old_attributes).to eq("data: {foo: 1,\n  bar: 2}")
         expect(ast.oneline_child).to be_nil
       end
       expect(ast.children.size).to eq(1)

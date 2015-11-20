@@ -5,7 +5,7 @@ RSpec.describe 'HTML-style attribute parser' do
     ast = expect_single_ast('%span(foo=1 bar=3) hello')
     aggregate_failures do
       expect(ast.tag_name).to eq('span')
-      expect(ast.attributes).to eq('"foo" => 1,"bar" => 3,')
+      expect(ast.new_attributes).to eq('"foo" => 1,"bar" => 3,')
       expect(ast.oneline_child.text).to eq('hello')
     end
   end
@@ -13,14 +13,15 @@ RSpec.describe 'HTML-style attribute parser' do
   it 'parses variables' do
     ast = expect_single_ast('%span(foo=foo bar=3) hello')
     aggregate_failures do
-      expect(ast.attributes).to eq('"foo" => foo,"bar" => 3,')
+      expect(ast.new_attributes).to eq('"foo" => foo,"bar" => 3,')
     end
   end
 
   it 'parses attributes with old syntax' do
     ast = expect_single_ast('%span(foo=foo){bar: 3} hello')
     aggregate_failures do
-      expect(ast.attributes).to eq('bar: 3, "foo" => foo,')
+      expect(ast.new_attributes).to eq('"foo" => foo,')
+      expect(ast.old_attributes).to eq('bar: 3')
       expect(ast.oneline_child.text).to eq('hello')
     end
   end
@@ -32,14 +33,14 @@ RSpec.describe 'HTML-style attribute parser' do
 bar=3) hello
 HAML
     aggregate_failures do
-      expect(ast.attributes).to eq(%Q{"foo" => 1,\n\n"bar" => 3,})
+      expect(ast.new_attributes).to eq(%Q{"foo" => 1,\n\n"bar" => 3,})
     end
   end
 
   it "doesn't parse extra parens" do
     ast = expect_single_ast('%span(foo=1)(bar=3) hello')
     aggregate_failures do
-      expect(ast.attributes).to eq('"foo" => 1,')
+      expect(ast.new_attributes).to eq('"foo" => 1,')
       expect(ast.oneline_child.text).to eq('(bar=3) hello')
     end
   end
@@ -47,7 +48,7 @@ HAML
   it 'parses empty parens' do
     ast = expect_single_ast('%span()(bar=3) hello')
     aggregate_failures do
-      expect(ast.attributes).to eq('')
+      expect(ast.new_attributes).to eq('')
       expect(ast.oneline_child.text).to eq('(bar=3) hello')
     end
   end
@@ -56,7 +57,7 @@ HAML
     ast = expect_single_ast('%span (hello)')
     aggregate_failures do
       expect(ast.tag_name).to eq('span')
-      expect(ast.attributes).to eq('')
+      expect(ast.new_attributes).to be_nil
       expect(ast.oneline_child.text).to eq('(hello)')
     end
   end
@@ -64,49 +65,49 @@ HAML
   it 'parses single-quoted value' do
     ast = expect_single_ast('%span(foo=1 bar="baz") hello')
     aggregate_failures do
-      expect(ast.attributes).to eq('"foo" => 1,"bar" => "baz",')
+      expect(ast.new_attributes).to eq('"foo" => 1,"bar" => "baz",')
     end
   end
 
   it 'parses double-quoted value' do
     ast = expect_single_ast("%span(foo=1 bar='baz') hello")
     aggregate_failures do
-      expect(ast.attributes).to eq('"foo" => 1,"bar" => "baz",')
+      expect(ast.new_attributes).to eq('"foo" => 1,"bar" => "baz",')
     end
   end
 
   it 'parses key-only attribute' do
     ast = expect_single_ast('%span(foo bar=1) hello')
     aggregate_failures do
-      expect(ast.attributes).to eq('"foo" => true,"bar" => 1,')
+      expect(ast.new_attributes).to eq('"foo" => true,"bar" => 1,')
     end
   end
 
   it 'parses string interpolation in single-quote' do
     ast = expect_single_ast('%span(foo=1 bar="baz#{1 + 2}") hello')
     aggregate_failures do
-      expect(ast.attributes).to eq('"foo" => 1,"bar" => "baz#{1 + 2}",')
+      expect(ast.new_attributes).to eq('"foo" => 1,"bar" => "baz#{1 + 2}",')
     end
   end
 
   it 'parses string interpolation in double-quote' do
     ast = expect_single_ast('%span(foo=1 bar="baz#{1 + 2}") hello')
     aggregate_failures do
-      expect(ast.attributes).to eq('"foo" => 1,"bar" => "baz#{1 + 2}",')
+      expect(ast.new_attributes).to eq('"foo" => 1,"bar" => "baz#{1 + 2}",')
     end
   end
 
   it 'parses escaped single-quote' do
     ast = expect_single_ast(%q|%span(foo=1 bar='ba\'z') hello|)
     aggregate_failures do
-      expect(ast.attributes).to eq(%q|"foo" => 1,"bar" => "ba\'z",|)
+      expect(ast.new_attributes).to eq(%q|"foo" => 1,"bar" => "ba\'z",|)
     end
   end
 
   it 'parses escaped double-quote' do
     ast = expect_single_ast('%span(foo=1 bar="ba\"z") hello')
     aggregate_failures do
-      expect(ast.attributes).to eq('"foo" => 1,"bar" => "ba\"z",')
+      expect(ast.new_attributes).to eq('"foo" => 1,"bar" => "ba\"z",')
     end
   end
 

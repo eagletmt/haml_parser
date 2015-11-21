@@ -1,3 +1,7 @@
+# 0.4.0 (2015-11-21)
+- Old attributes and new attributes are no longer merged
+    - `Ast::Element#attributes` is left for compatibility
+
 # 0.3.0 (2015-11-16)
 - Add support for object reference syntax
 - Fix attribute parser for empty braces or parens

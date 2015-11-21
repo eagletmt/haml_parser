@@ -1,3 +1,4 @@
+# frozen-string-literal: true
 require_relative 'ast'
 
 module HamlParser

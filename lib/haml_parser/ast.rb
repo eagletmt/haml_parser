@@ -1,3 +1,4 @@
+# frozen-string-literal: true
 module HamlParser
   module Ast
     module HasChildren

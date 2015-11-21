@@ -1,3 +1,4 @@
+# frozen-string-literal: true
 module HamlParser
   module RubyMultiline
     def self.read(line_parser, current_text)

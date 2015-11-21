@@ -1,3 +1,4 @@
+# frozen-string-literal: true
 require 'spec_helper'
 
 RSpec.describe 'HTML-style attribute parser' do

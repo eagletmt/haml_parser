@@ -1,3 +1,4 @@
+# frozen-string-literal: true
 module HamlParser
   module Utils
     module_function

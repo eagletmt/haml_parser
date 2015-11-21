@@ -34,7 +34,8 @@ module HamlParser
       :tag_name,
       :static_class,
       :static_id,
-      :attributes,
+      :old_attributes,
+      :new_attributes,
       :oneline_child,
       :self_closing,
       :nuke_inner_whitespace,
@@ -49,7 +50,6 @@ module HamlParser
         super
         self.static_class ||= ''
         self.static_id ||= ''
-        self.attributes ||= ''
         self.self_closing ||= false
         self.nuke_inner_whitespace ||= false
         self.nuke_outer_whitespace ||= false
@@ -60,6 +60,19 @@ module HamlParser
           type: 'element',
           oneline_child: oneline_child && oneline_child.to_h,
         )
+      end
+
+      # XXX: For compatibility
+      def attributes
+        attrs = old_attributes || ''
+        if new_attributes
+          if attrs.empty?
+            attrs = new_attributes
+          else
+            attrs += ", #{new_attributes}"
+          end
+        end
+        attrs
       end
     end
 

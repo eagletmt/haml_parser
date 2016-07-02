@@ -51,4 +51,10 @@ HAML
 	%a
 HAML
   end
+
+  it 'raise error when the first line has indentation' do
+    expect { parse(<<HAML) }.to raise_error(HamlParser::Error)
+  foo
+HAML
+  end
 end

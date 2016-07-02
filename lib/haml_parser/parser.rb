@@ -181,6 +181,8 @@ module HamlParser
         syntax_error!('nesting within plain text is illegal')
       when Ast::Doctype
         syntax_error!('nesting within a header command is illegal')
+      when nil
+        syntax_error!('Indenting at the beginning of the document is illegal')
       end
       @ast.children = empty_lines
       if @ast.is_a?(Ast::Element) && @ast.self_closing

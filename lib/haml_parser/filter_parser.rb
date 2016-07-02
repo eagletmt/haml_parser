@@ -1,4 +1,4 @@
-# frozen-string-literal: true
+# frozen_string_literal: true
 require_relative 'ast'
 
 module HamlParser
@@ -36,15 +36,13 @@ module HamlParser
           @ast = nil
           return ast
         end
+      elsif indent_level > @indent_tracker.current_level
+        # Start filter
+        @indent_level = indent_level
       else
-        if indent_level > @indent_tracker.current_level
-          # Start filter
-          @indent_level = indent_level
-        else
-          # Empty filter
-          @ast = nil
-          return nil
-        end
+        # Empty filter
+        @ast = nil
+        return nil
       end
 
       text = line[@indent_level..-1]

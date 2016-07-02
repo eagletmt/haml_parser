@@ -1,4 +1,4 @@
-# frozen-string-literal: true
+# frozen_string_literal: true
 require_relative 'ast'
 require_relative 'element_parser'
 require_relative 'error'
@@ -205,8 +205,8 @@ module HamlParser
       nil
     end
 
-    MID_BLOCK_KEYWORDS = %w[else elsif rescue ensure end when]
-    START_BLOCK_KEYWORDS = %w[if begin case unless]
+    MID_BLOCK_KEYWORDS = %w[else elsif rescue ensure end when].freeze
+    START_BLOCK_KEYWORDS = %w[if begin case unless].freeze
     # Try to parse assignments to block starters as best as possible
     START_BLOCK_KEYWORD_REGEX = /(?:\w+(?:,\s*\w+)*\s*=\s*)?(#{Regexp.union(START_BLOCK_KEYWORDS)})/
     BLOCK_KEYWORD_REGEX = /^-?\s*(?:(#{Regexp.union(MID_BLOCK_KEYWORDS)})|#{START_BLOCK_KEYWORD_REGEX.source})\b/
@@ -227,7 +227,7 @@ module HamlParser
         node.filename = @line_parser.filename
         node.lineno = @line_parser.lineno
         if block
-          block.call(node)
+          yield(node)
         end
       end
     end

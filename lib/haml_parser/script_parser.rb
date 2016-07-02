@@ -1,4 +1,4 @@
-# frozen-string-literal: true
+# frozen_string_literal: true
 require_relative 'ast'
 require_relative 'error'
 require_relative 'ruby_multiline'
@@ -40,10 +40,9 @@ module HamlParser
     end
 
     def parse_sanitized(text)
-      case
-      when text.start_with?('&==')
+      if text.start_with?('&==')
         create_node(Ast::Text) { |t| t.text = text[3..-1].lstrip }
-      when text[1] == '=' || text[1] == '~'
+      elsif text[1] == '=' || text[1] == '~'
         node = create_node(Ast::Script)
         script = text[2..-1].lstrip
         if script.empty?
@@ -58,13 +57,12 @@ module HamlParser
     end
 
     def parse_unescape(text)
-      case
-      when text.start_with?('!==')
+      if text.start_with?('!==')
         create_node(Ast::Text) do |t|
           t.text = text[3..-1].lstrip
           t.escape_html = false
         end
-      when text[1] == '=' || text[1] == '~'
+      elsif text[1] == '=' || text[1] == '~'
         node = create_node(Ast::Script)
         node.escape_html = false
         script = text[2..-1].lstrip

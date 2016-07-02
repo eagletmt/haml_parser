@@ -1,4 +1,4 @@
-# frozen-string-literal: true
+# frozen_string_literal: true
 require_relative 'error'
 
 module HamlParser
@@ -37,7 +37,7 @@ module HamlParser
     end
 
     def process(line, lineno)
-      if line =~ /\A\t/
+      if line.start_with?("\t")
         raise HardTabNotAllowed.new(lineno)
       end
       indent, text = split(line)

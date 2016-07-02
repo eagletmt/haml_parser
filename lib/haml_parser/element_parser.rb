@@ -1,4 +1,4 @@
-# frozen-string-literal: true
+# frozen_string_literal: true
 require 'strscan'
 require_relative 'ast'
 require_relative 'error'
@@ -100,12 +100,10 @@ module HamlParser
         if depth == 0
           attr = s.pre_match + s.matched
           return [attr[1, attr.size - 2], s.rest]
+        elsif /,\s*\z/ === text && @line_parser.has_next?
+          text << "\n" << @line_parser.next_line
         else
-          if /,\s*\z/ === text && @line_parser.has_next?
-            text << "\n" << @line_parser.next_line
-          else
-            syntax_error!('Unmatched brace')
-          end
+          syntax_error!('Unmatched brace')
         end
       end
     end
@@ -121,12 +119,10 @@ module HamlParser
         if depth == 0
           t = s.string.byteslice(pre_pos...s.pos - 1)
           return [parse_new_attribute_list(t), s.rest]
+        elsif @line_parser.has_next?
+          text << "\n" << @line_parser.next_line
         else
-          if @line_parser.has_next?
-            text << "\n" << @line_parser.next_line
-          else
-            syntax_error!('Unmatched paren')
-          end
+          syntax_error!('Unmatched paren')
         end
       end
     end

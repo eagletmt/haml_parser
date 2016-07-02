@@ -1,4 +1,4 @@
-# frozen-string-literal: true
+# frozen_string_literal: true
 module HamlParser
   class LineParser
     attr_reader :filename, :lineno

@@ -1,3 +1,6 @@
+# 0.4.1 (2016-07-02)
+- Raise error when the first line has indentation
+
 # 0.4.0 (2015-11-21)
 - Old attributes and new attributes are no longer merged
     - `Ast::Element#attributes` is left for compatibility
